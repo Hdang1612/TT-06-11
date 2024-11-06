@@ -9,7 +9,6 @@ function CartItemList() {
         <Divider style={{margin:'10,0'}} />
         <CartItem></CartItem>
     </Card>
-   
   )
 }
 
