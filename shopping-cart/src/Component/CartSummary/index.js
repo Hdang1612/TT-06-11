@@ -4,15 +4,13 @@ import { useState } from 'react';
 const { Text, Title } = Typography;
 const CartSummary = () => {
     const [discountCode, setDiscountCode] = useState('');
-    const [subtotal, setSubtotal] = useState(100); // Giả sử giá subtotal là 100
-    const [discount, setDiscount] = useState(10); // Giả sử mã giảm giá là 10
-    const [delivery, setDelivery] = useState(5); // Giả sử phí vận chuyển là 5
-    const [tax, setTax] = useState(3); // Giả sử thuế là 3
-    const [total, setTotal] = useState(subtotal - discount + delivery + tax); // Tổng tiền
+    const [subtotal, setSubtotal] = useState(100); 
+    const [discount, setDiscount] = useState(10); 
+    const [delivery, setDelivery] = useState(5); 
+    const [tax, setTax] = useState(3); 
+    const [total, setTotal] = useState(subtotal - discount + delivery + tax); 
   
     const handleApplyDiscount = () => {
-      // Logic xử lý mã giảm giá (có thể tính toán lại tổng giá trị)
-      // Ví dụ đơn giản là giảm 10% nếu mã đúng
       if (discountCode === 'DISCOUNT10') {
         setDiscount(10); // Giảm giá 10
       } else {

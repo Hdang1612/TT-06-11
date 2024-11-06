@@ -33,7 +33,6 @@ function CartItem(onQuantityChange, onRemove) {
   return (
     <Card style={{ marginBottom: 4 }} bordered={false}>
       <Row gutter={12} align="middle">
-        {/* Bên trái: Ảnh sản phẩm */}
         <Col span={4}>
           <img
             src={product.image}
@@ -42,7 +41,6 @@ function CartItem(onQuantityChange, onRemove) {
           />
         </Col>
 
-        {/* Bên phải: Thông tin sản phẩm */}
         <Col span={16} style={{ textAlign: "left" }}>
           <Title level={4}>Ten sp</Title>
           <Text strong>describe</Text>
@@ -67,7 +65,6 @@ function CartItem(onQuantityChange, onRemove) {
           </div>
         </Col>
 
-        {/* Bên phải: Giá sản phẩm và nút xóa */}
         <Col span={4} style={{ textAlign: "right" }}>
           <Text strong>Price</Text>
           <br />
