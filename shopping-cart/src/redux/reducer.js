@@ -36,7 +36,7 @@ const rootReducer = (state = initState, action) => {
         (item) => item.id !== action.payload.id
       );
 
-      // saveToStorage("listCart", filteredCart);
+      saveToStorage("listCart", filteredCart);
 
       return {
         ...state,
@@ -50,28 +50,56 @@ const rootReducer = (state = initState, action) => {
       };
 
     case "UPDATEQUANTITY":
+      const updatedCartQuantity = state.listCart.map((item) =>
+        item.id === action.payload.id
+          ? { ...item, quantity: action.payload.quantity }
+          : item
+      );
+
+      saveToStorage("listCart", updatedCartQuantity);
+      // saveToStorage("listPay", updatedPayListQuantity);
+
       return {
         ...state,
-        listCart: state.listCart.map((item) =>
-          item.id === action.payload.id
-            ? { ...item, quantity: action.payload.quantity }
-            : item
-        ),
+        listCart: updatedCartQuantity,
+        // listPay: updatedPayListQuantity,
       };
 
     case "ADDPAY":
+      let updatedPayList;
+
+      if (state.listPay.some((item) => item.id === action.payload.id)) {
+        // Nếu đã tồn tại trong listPay, chỉ cập nhật quantity
+        updatedPayList = state.listPay.map((item) =>
+          item.id === action.payload.id
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        );
+      } else {
+        // Nếu chưa có trong listPay, thêm sản phẩm mới
+        updatedPayList = [...state.listPay, action.payload];
+      }
+
+      saveToStorage("listPay", updatedPayList);
       return {
         ...state,
-        listPay: [...state.listPay, action.payload],
+        listPay: updatedPayList,
       };
 
     case "REMOVEPAY":
+      const updatedListPay = state.listPay.filter(
+        (id) => id !== action.payload
+      );
+
+      // saveToStorage("listPay", updatedListPay);
+
       return {
         ...state,
-        listPay: state.listPay.filter((id) => id !== action.payload),
+        listPay: updatedListPay,
       };
 
     case "CLEAR_PAY":
+      saveToStorage("listPay", []);
       return {
         ...state,
         listPay: [],

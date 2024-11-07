@@ -9,8 +9,7 @@ import {
   Checkbox,
 } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 const { Title, Text } = Typography;
 
 function CartItem({
@@ -21,21 +20,22 @@ function CartItem({
   onQuantityChange,
 }) {
   const handleQuantityChange = (newQuantity) => {
-    onQuantityChange(product.id, newQuantity); 
-    // console.log(newQuantity)
+    onQuantityChange(product.id, newQuantity);
   };
 
   return (
     <Card style={{ marginBottom: 4 }} bordered={false}>
       <Row gutter={12} align="middle">
-        <Col span={2}>
+        {/* Checkbox */}
+        <Col xs={4} sm={2} md={2}>
           <Checkbox
             checked={selected}
             onChange={(e) => onSelectItem(e.target.checked)}
           />
         </Col>
 
-        <Col span={4}>
+        {/* Product Image */}
+        <Col xs={8} sm={6} md={4} lg={4}>
           <img
             src={product.image}
             alt={product.name}
@@ -48,7 +48,8 @@ function CartItem({
           />
         </Col>
 
-        <Col span={14} style={{ textAlign: "left" }}>
+        {/* Product Info */}
+        <Col xs={12} sm={12} md={10} lg={12} style={{ textAlign: "left" }}>
           <Title level={4}>{product.name}</Title>
           <Text>{product.price}</Text>
 
@@ -62,8 +63,21 @@ function CartItem({
           </div>
         </Col>
 
-        <Col span={4} style={{ textAlign: "right" }}>
-          <Text style={{ fontSize: "20px" }} strong>
+        {/* Price and Delete Button */}
+        <Col
+          xs={12} // Trên màn hình nhỏ, chiếm 1/2 chiều rộng
+          sm={6}  // Trên màn hình vừa, chiếm 1/4 chiều rộng
+          md={6}  // Trên màn hình trung bình, chiếm 1/4 chiều rộng
+          lg={4}  // Trên màn hình lớn, chiếm 1/4 chiều rộng
+          style={{ textAlign: "right" }}
+        >
+          <Text
+            style={{
+              fontSize: "20px",
+              display: window.innerWidth <= 576 ? "none" : "inline",
+            }}
+            strong
+          >
             {product.price}
           </Text>
           <br />

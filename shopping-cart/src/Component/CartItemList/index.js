@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CartItem from "../CartItem";
-import { Card, Divider, Typography, Checkbox, Button,Empty } from "antd";
+import { Card, Divider, Typography, Checkbox, Button, Empty } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { saveToStorage, getFromStorage } from "../../Data/localStorage";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import {
   clearPayAction,
   updateCartAction,
   removeCartAction,
-  updateQuantity
+  updateQuantity,
 } from "../../redux/action";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,6 +22,7 @@ function CartItemList() {
   const products = useSelector(cartSelectors);
   const selectedItems = useSelector(payListSelectors);
   const dispatch = useDispatch();
+  
 
   const handleSelectAll = (checked) => {
     if (checked) {
@@ -43,9 +44,7 @@ function CartItemList() {
     const updatedProducts = products.filter(
       (item) => !selectedItems.includes(item)
     );
-
     saveToStorage("listCart", updatedProducts);
-
     dispatch(updateCartAction(updatedProducts));
     dispatch(clearPayAction());
   };
@@ -65,9 +64,26 @@ function CartItemList() {
   };
 
   const handleQuantityChange = (id, newQuantity) => {
-    // console.log(newQuantity)
     dispatch(updateQuantity(id, newQuantity));
+
+    // Kiểm tra nếu sản phẩm đang được chọn (tức là có trong listPay)
+    const isSelected = selectedItems.some((item) => item.id === id);
+    
+    // Nếu sản phẩm đã được chọn, cập nhật lại quantity trong listPay
+    if (isSelected) {
+      dispatch(addPayAction({ id, quantity: newQuantity }));
+    }
   };
+
+
+const handleSelectItem = (product,checked) => {
+  console.log(checked)
+  if (checked) {
+    dispatch(addPayAction(product));
+  } else {
+    dispatch(removePayAction(product));
+  }
+}
 
   return (
     <Card style={{ height: "600px", overflowY: "auto" }}>
@@ -96,27 +112,30 @@ function CartItemList() {
       </Button>
 
       {products.length === 0 ? (
-    <Empty description="Giỏ hàng của bạn hiện tại đang trống" />
-  ) : (
-    products.map((product) => (
-      <CartItem
-        key={product.id}
-        product={product}
-        selected={selectedItems.includes(product)}
-        onSelectItem={(checked) => {
-          if (checked) {
-            dispatch(addPayAction(product));
-          } else {
-            dispatch(removePayAction(product));
-          }
-        }}
-        onDeleteItem={handleDeleteItem}
-        onQuantityChange={handleQuantityChange}
-      />
-    ))
-  )}
+        <Empty description="Giỏ hàng của bạn hiện tại đang trống" />
+      ) : (
+        products.map((product) => (
+          <CartItem
+            key={product.id}
+            product={product}
+            selected={selectedItems.includes(product)}
+            onSelectItem={(checked) => handleSelectItem(product, checked)}
+            onDeleteItem={handleDeleteItem}
+            onQuantityChange={handleQuantityChange}
+          />
+        ))
+      )}
     </Card>
   );
 }
 
 export default CartItemList;
+
+// {
+//   console.log(checked)
+//   if (checked) {
+//     dispatch(addPayAction(product));
+//   } else {
+//     dispatch(removePayAction(product));
+//   }
+// }
