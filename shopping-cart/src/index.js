@@ -1,23 +1,37 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Favorite from './page/Favorite';
-import Cart from './page/Cart';
-import { Provider } from 'react-redux';
-import store from './redux/store';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Favorite from "./page/Favorite";
+import Cart from "./page/Cart";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+    />
     <BrowserRouter>
-    <Routes>
-      <Route path='/' element= {<App />} ></Route>
-      <Route path='/cart' element= {<Cart />} ></Route>
-      <Route path='/favorite' element= {<Favorite />} ></Route>
-    </Routes>
+      <Routes>
+        <Route path="/" element={<App />}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
+        <Route path="/favorite" element={<Favorite />}></Route>
+      </Routes>
     </BrowserRouter>
   </Provider>
 );
