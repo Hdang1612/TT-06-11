@@ -40,11 +40,27 @@ export const removePayAction = (data) => {
     payload: data,
   };
 };
+
+
 export const clearPayAction = () => {
   return {
     type: "CLEARPAY",
   };
 };
 
+
+export const addFavoriteAction =(data) => {
+  return {
+    type :'ADDFAVORITE',
+    payload:data
+  }
+}
+
+export const removeFavoriteAction =(data) => {
+  return {
+    type: "REMOVEFAVORITE",
+    payload: data,
+  };
+}
 
 

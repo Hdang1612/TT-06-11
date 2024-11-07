@@ -1,12 +1,14 @@
 import { saveToStorage } from "../Data/localStorage";
 import { getFromStorage } from "../Data/localStorage";
 const initState = {
-  listCart: JSON.parse(localStorage.getItem("listCart")) || [],
+  listCart: getFromStorage("listCart") || [],
   listPay: [],
+  listFavorite: getFromStorage("listFavorite") || [],
 };
 
 const rootReducer = (state = initState, action) => {
   console.log(state, action); //check
+  console.log(state.listFavorite);
   switch (action.type) {
     case "ADDCART":
       const index = state.listCart.findIndex(
@@ -15,14 +17,13 @@ const rootReducer = (state = initState, action) => {
 
       let updatedCart;
       if (index >= 0) {
-        updatedCart = state.listCart.map((item, index) =>
-          index === index ? { ...item, quantity: item.quantity + 1 } : item
+        updatedCart = state.listCart.map((item, idx) =>
+          idx === index ? { ...item, quantity: item.quantity + 1 } : item
         );
       } else {
         updatedCart = [...state.listCart, { ...action.payload, quantity: 1 }];
       }
 
-      // Lưu cart vào localStorage
       saveToStorage("listCart", updatedCart);
 
       return {
@@ -74,6 +75,28 @@ const rootReducer = (state = initState, action) => {
       return {
         ...state,
         listPay: [],
+      };
+
+    case "ADDFAVORITE":
+      const updatedFavoriteList = [...state.listFavorite, action.payload];
+
+      saveToStorage("listFavorite", updatedFavoriteList);
+
+      return {
+        ...state,
+        listFavorite: updatedFavoriteList,
+      };
+
+    case "REMOVEFAVORITE":
+      const updatedFavoriteListAfterRemove = state.listFavorite.filter(
+        (product) => product.id !== action.payload
+      );
+
+      saveToStorage("listFavorite", updatedFavoriteListAfterRemove);
+
+      return {
+        ...state,
+        listFavorite: updatedFavoriteListAfterRemove,
       };
 
     default:

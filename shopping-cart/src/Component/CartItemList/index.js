@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CartItem from "../CartItem";
-import { Card, Divider, Typography, Checkbox, Button } from "antd";
+import { Card, Divider, Typography, Checkbox, Button,Empty } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { saveToStorage, getFromStorage } from "../../Data/localStorage";
 import { useDispatch, useSelector } from "react-redux";
@@ -95,22 +95,26 @@ function CartItemList() {
         Xóa
       </Button>
 
-      {products.map((product) => (
-        <CartItem
-          key={product.id}
-          product={product}
-          selected={selectedItems.includes(product)}
-          onSelectItem={(checked) => {
-            if (checked) {
-              dispatch(addPayAction(product));
-            } else {
-              dispatch(removePayAction(product));
-            }
-          }}
-          onDeleteItem={handleDeleteItem}
-          onQuantityChange={handleQuantityChange}
-        />
-      ))}
+      {products.length === 0 ? (
+    <Empty description="Giỏ hàng của bạn hiện tại đang trống" />
+  ) : (
+    products.map((product) => (
+      <CartItem
+        key={product.id}
+        product={product}
+        selected={selectedItems.includes(product)}
+        onSelectItem={(checked) => {
+          if (checked) {
+            dispatch(addPayAction(product));
+          } else {
+            dispatch(removePayAction(product));
+          }
+        }}
+        onDeleteItem={handleDeleteItem}
+        onQuantityChange={handleQuantityChange}
+      />
+    ))
+  )}
     </Card>
   );
 }

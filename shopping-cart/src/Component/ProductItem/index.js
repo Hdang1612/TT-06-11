@@ -1,20 +1,34 @@
 import React from "react";
 import { Card, Button, Col, Typography, Row, Checkbox } from "antd";
-import { ShoppingCartOutlined, HeartOutlined } from "@ant-design/icons";
+import {
+  ShoppingCartOutlined,
+  HeartOutlined,
+  HeartFilled,
+} from "@ant-design/icons";
 import { useDispatch } from "react-redux";
-import { addCartAction } from "../../redux/action";
+import {
+  addCartAction,
+  addFavoriteAction,
+  removeFavoriteAction,
+} from "../../redux/action";
 import { toast } from "react-toastify";
+import { favoriteListSelectors } from "../../redux/selectors";
+import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-// import ToastNotification from "../Toast";
-// import { cartSelectors } from "../redux/selectors";
 const { Title, Text } = Typography;
 
 const ProductItem = ({ product }) => {
   // const toastNotificationRef = React.createRef();
   const dispatch = useDispatch();
+  const favoriteItem = useSelector(favoriteListSelectors);
+  const isFavorite =
+    favoriteItem && favoriteItem.length > 0
+      ? favoriteItem.some((item) => item.id === product.id)
+      : false;
+
   const handleAddCart = () => {
     dispatch(addCartAction(product));
-    toast.success('Thêm thành công !', {
+    toast.success("Thêm thành công !", {
       position: "top-right",
       autoClose: 2000,
       hideProgressBar: false,
@@ -23,7 +37,15 @@ const ProductItem = ({ product }) => {
       draggable: true,
       progress: undefined,
       theme: "light",
-      });
+    });
+  };
+
+  const handleAddFavorite = () => {
+    if (isFavorite) {
+      dispatch(removeFavoriteAction(product.id));
+    } else {
+      dispatch(addFavoriteAction(product));
+    }
   };
 
   return (
@@ -51,7 +73,12 @@ const ProductItem = ({ product }) => {
             ></Button>
           </Col>
           <Col span={12}>
-            <Button type="default" icon={<HeartOutlined />} block></Button>
+            <Button
+              // type={isFavorite ? "danger" : "default"}
+              icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
+              onClick={handleAddFavorite}
+              block
+            ></Button>
           </Col>
         </Row>
       </div>
