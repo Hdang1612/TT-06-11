@@ -19,6 +19,13 @@ export const removeCartAction = (data) => {
     };
   };
 
+export const updateQuantity = (id,quantity) => {
+    return {
+      type: "UPDATEQUANTITY",
+      payload: {id,quantity},
+    };
+  };
+
 export const addPayAction = (data) => {
   return {
     type: "ADDPAY",

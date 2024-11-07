@@ -48,6 +48,16 @@ const rootReducer = (state = initState, action) => {
         listCart: action.payload,
       };
 
+    case "UPDATEQUANTITY":
+      return {
+        ...state,
+        listCart: state.listCart.map((item) =>
+          item.id === action.payload.id
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        ),
+      };
+
     case "ADDPAY":
       return {
         ...state,
@@ -58,12 +68,6 @@ const rootReducer = (state = initState, action) => {
       return {
         ...state,
         listPay: state.listPay.filter((id) => id !== action.payload),
-      };
-
-    case "UPDATE_CART":
-      return {
-        ...state,
-        listCart: action.payload,
       };
 
     case "CLEAR_PAY":

@@ -12,6 +12,7 @@ import {
   clearPayAction,
   updateCartAction,
   removeCartAction,
+  updateQuantity
 } from "../../redux/action";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -63,6 +64,11 @@ function CartItemList() {
     });
   };
 
+  const handleQuantityChange = (id, newQuantity) => {
+    // console.log(newQuantity)
+    dispatch(updateQuantity(id, newQuantity));
+  };
+
   return (
     <Card style={{ height: "600px", overflowY: "auto" }}>
       <Title level={3} style={{ textAlign: "left", marginBottom: "0" }}>
@@ -102,6 +108,7 @@ function CartItemList() {
             }
           }}
           onDeleteItem={handleDeleteItem}
+          onQuantityChange={handleQuantityChange}
         />
       ))}
     </Card>

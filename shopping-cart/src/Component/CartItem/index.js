@@ -1,11 +1,30 @@
-import React from 'react';
-import { Card, Row, Col, Button, Typography, InputNumber, Checkbox } from 'antd';
+import React from "react";
+import {
+  Card,
+  Row,
+  Col,
+  Button,
+  Typography,
+  InputNumber,
+  Checkbox,
+} from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const { Title, Text } = Typography;
 
-function CartItem({ product, selected, onSelectItem, onDeleteItem}) {
+function CartItem({
+  product,
+  selected,
+  onSelectItem,
+  onDeleteItem,
+  onQuantityChange,
+}) {
+  const handleQuantityChange = (newQuantity) => {
+    onQuantityChange(product.id, newQuantity); 
+    // console.log(newQuantity)
+  };
+
   return (
     <Card style={{ marginBottom: 4 }} bordered={false}>
       <Row gutter={12} align="middle">
@@ -38,6 +57,7 @@ function CartItem({ product, selected, onSelectItem, onDeleteItem}) {
               min={1}
               value={product.quantity}
               style={{ width: 100 }}
+              onChange={handleQuantityChange}
             />
           </div>
         </Col>
@@ -62,4 +82,3 @@ function CartItem({ product, selected, onSelectItem, onDeleteItem}) {
 }
 
 export default CartItem;
-

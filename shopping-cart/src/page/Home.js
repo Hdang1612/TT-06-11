@@ -19,7 +19,9 @@ const Home = () => {
           alignItems: "center",
         }}
       >
+        <Link to="/">
         <h1 style={{ color: "white" }}>Product List</h1>
+        </Link>
         <div>
           <Link to="/cart" style={{ color: "white", marginRight: "16px" }}>
             <ShoppingCartOutlined style={{fontSize:'20px', marginRight:'12px'}} /> 
