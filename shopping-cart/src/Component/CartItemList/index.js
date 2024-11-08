@@ -27,16 +27,10 @@ function CartItemList() {
   const handleSelectAll = (checked) => {
     if (checked) {
       products.forEach((product) => {
-        if (!selectedItems.includes(product)) {
-          dispatch(addPayAction(product));
-        }
+        dispatch(addPayAction(product));
       });
     } else {
-      products.forEach((product) => {
-        if (selectedItems.includes(product)) {
-          dispatch(removePayAction(product));
-        }
-      });
+      dispatch(clearPayAction());
     }
   };
 
@@ -49,8 +43,8 @@ function CartItemList() {
     dispatch(clearPayAction());
   };
 
-  const handleDeleteItem = (item) => {
-    dispatch(removeCartAction(item));
+  const handleDeleteItem = (product,checked) => {
+    dispatch(removeCartAction(product.id));
     toast.success("Xóa thành công !", {
       position: "top-right",
       autoClose: 2000,
@@ -61,15 +55,16 @@ function CartItemList() {
       progress: undefined,
       theme: "light",
     });
+    if (checked) {
+      dispatch(removePayAction(product.id))
+    }
   };
 
   const handleQuantityChange = (id, newQuantity) => {
     dispatch(updateQuantity(id, newQuantity));
 
-    // Kiểm tra nếu sản phẩm đang được chọn (tức là có trong listPay)
     const isSelected = selectedItems.some((item) => item.id === id);
     
-    // Nếu sản phẩm đã được chọn, cập nhật lại quantity trong listPay
     if (isSelected) {
       dispatch(addPayAction({ id, quantity: newQuantity }));
     }
@@ -80,8 +75,9 @@ const handleSelectItem = (product,checked) => {
   console.log(checked)
   if (checked) {
     dispatch(addPayAction(product));
+    // dispatch(removePayAction(product.id))
   } else {
-    dispatch(removePayAction(product));
+    dispatch(removePayAction(product.id));
   }
 }
 
@@ -120,7 +116,7 @@ const handleSelectItem = (product,checked) => {
             product={product}
             selected={selectedItems.includes(product)}
             onSelectItem={(checked) => handleSelectItem(product, checked)}
-            onDeleteItem={handleDeleteItem}
+            onDeleteItem={(checked) => handleDeleteItem(product, checked)}
             onQuantityChange={handleQuantityChange}
           />
         ))

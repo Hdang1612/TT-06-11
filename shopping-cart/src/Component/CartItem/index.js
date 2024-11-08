@@ -26,7 +26,6 @@ function CartItem({
   return (
     <Card style={{ marginBottom: 4 }} bordered={false}>
       <Row gutter={12} align="middle">
-        {/* Checkbox */}
         <Col xs={4} sm={2} md={2}>
           <Checkbox
             checked={selected}
@@ -34,7 +33,6 @@ function CartItem({
           />
         </Col>
 
-        {/* Product Image */}
         <Col xs={8} sm={6} md={4} lg={4}>
           <img
             src={product.image}
@@ -48,7 +46,6 @@ function CartItem({
           />
         </Col>
 
-        {/* Product Info */}
         <Col xs={12} sm={12} md={10} lg={12} style={{ textAlign: "left" }}>
           <Title level={4}>{product.name}</Title>
           <Text>{product.price}</Text>
@@ -65,10 +62,10 @@ function CartItem({
 
         {/* Price and Delete Button */}
         <Col
-          xs={12} // Trên màn hình nhỏ, chiếm 1/2 chiều rộng
-          sm={6}  // Trên màn hình vừa, chiếm 1/4 chiều rộng
-          md={6}  // Trên màn hình trung bình, chiếm 1/4 chiều rộng
-          lg={4}  // Trên màn hình lớn, chiếm 1/4 chiều rộng
+          xs={12} 
+          sm={6} 
+          md={6}  
+          lg={4}  
           style={{ textAlign: "right" }}
         >
           <Text
@@ -83,7 +80,7 @@ function CartItem({
           <br />
           <Button
             type="danger"
-            onClick={() => onDeleteItem(product)}
+            onClick={() => onDeleteItem(product.id)}
             icon={<DeleteOutlined />}
             style={{ marginTop: "10px", padding: "0" }}
           >
