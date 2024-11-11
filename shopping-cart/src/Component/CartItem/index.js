@@ -60,7 +60,6 @@ function CartItem({
           </div>
         </Col>
 
-        {/* Price and Delete Button */}
         <Col
           xs={12} 
           sm={6} 

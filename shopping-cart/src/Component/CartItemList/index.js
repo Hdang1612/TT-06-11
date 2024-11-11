@@ -22,7 +22,6 @@ function CartItemList() {
   const products = useSelector(cartSelectors);
   const selectedItems = useSelector(payListSelectors);
   const dispatch = useDispatch();
-  
 
   const handleSelectAll = (checked) => {
     if (checked) {
@@ -36,14 +35,14 @@ function CartItemList() {
 
   const handleDeleteSelected = () => {
     const updatedProducts = products.filter(
-      (item) => !selectedItems.includes(item)
+      (item) => !selectedItems.some((selectedItem) => selectedItem.id === item.id)
     );
     saveToStorage("listCart", updatedProducts);
     dispatch(updateCartAction(updatedProducts));
     dispatch(clearPayAction());
   };
 
-  const handleDeleteItem = (product,checked) => {
+  const handleDeleteItem = (product, checked) => {
     dispatch(removeCartAction(product.id));
     toast.success("Xóa thành công !", {
       position: "top-right",
@@ -56,7 +55,7 @@ function CartItemList() {
       theme: "light",
     });
     if (checked) {
-      dispatch(removePayAction(product.id))
+      dispatch(removePayAction(product.id));
     }
   };
 
@@ -64,22 +63,21 @@ function CartItemList() {
     dispatch(updateQuantity(id, newQuantity));
 
     const isSelected = selectedItems.some((item) => item.id === id);
-    
+
     if (isSelected) {
       dispatch(addPayAction({ id, quantity: newQuantity }));
     }
   };
 
-
-const handleSelectItem = (product,checked) => {
-  console.log(checked)
-  if (checked) {
-    dispatch(addPayAction(product));
-    // dispatch(removePayAction(product.id))
-  } else {
-    dispatch(removePayAction(product.id));
-  }
-}
+  const handleSelectItem = (product, checked) => {
+    console.log(checked);
+    if (checked) {
+      dispatch(addPayAction(product));
+      // dispatch(removePayAction(product.id))
+    } else {
+      dispatch(removePayAction(product.id));
+    }
+  };
 
   return (
     <Card style={{ height: "600px", overflowY: "auto" }}>
@@ -114,7 +112,7 @@ const handleSelectItem = (product,checked) => {
           <CartItem
             key={product.id}
             product={product}
-            selected={selectedItems.includes(product)}
+            selected={selectedItems.some((item) => item.id === product.id)}
             onSelectItem={(checked) => handleSelectItem(product, checked)}
             onDeleteItem={(checked) => handleDeleteItem(product, checked)}
             onQuantityChange={handleQuantityChange}
